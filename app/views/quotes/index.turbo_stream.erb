@@ -4,7 +4,9 @@
 
 <% if @next_page.present? %>
     <%= turbo_stream.replace "load_more" do %>
-        <%= turbo_frame_tag "load_more", src: quotes_path(page: @next_page, format: :turbo_stream), loading: :lazy %>
-        <% sleep 1 %>
+        <%= turbo_frame_tag "load_more", src: quotes_path(page: @next_page, format: :turbo_stream), loading: :lazy do %>
+          Loading...
+        <% end %>
+        <% sleep 3 %>
     <% end %>
 <% end %>

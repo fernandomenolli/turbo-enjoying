@@ -15,9 +15,7 @@
 
   <div id="quotes">
   </div>
-  <%= turbo_frame_tag "load_more", src: quotes_path(format: :turbo_stream), loading: :lazy %>
-    
-
-
-
+  <%= turbo_frame_tag "load_more", src: quotes_path(page: @next_page, format: :turbo_stream), loading: :lazy do %>
+    Loading...
+  <% end %>
 </div>

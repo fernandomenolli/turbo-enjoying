@@ -4,7 +4,6 @@ class QuotesController < ApplicationController
   def index
     page_limit = 10
     @current_page = params[:page].to_i
-
     @quotes = current_company.quotes.ordered.offset(page_limit*@current_page).limit(page_limit)
     @next_page = @current_page + 1 if(Quote.all.count > page_limit*@current_page + page_limit)
   end

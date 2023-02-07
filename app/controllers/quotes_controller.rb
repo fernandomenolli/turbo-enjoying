@@ -2,11 +2,17 @@ class QuotesController < ApplicationController
   before_action :set_quote, only: [:show, :edit, :update, :destroy]
 
   def index
-    @quotes = current_company.quotes.ordered
+    page_limit = 10
+    @current_page = params[:page].to_i
+
+    @quotes = current_company.quotes.ordered.offset(page_limit*@current_page).limit(page_limit)
+    @next_page = @current_page + 1 if(Quote.all.count > page_limit*@current_page + page_limit)
   end
 
   def show
-    @line_item_dates = @quote.line_item_dates.ordered
+    def show
+      @line_item_dates = @quote.line_item_dates.includes(:line_items).ordered
+    end
   end
 
   def new
@@ -19,7 +25,7 @@ class QuotesController < ApplicationController
     if @quote.save
       respond_to do |format|
         format.html { redirect_to quotes_path, notice: "Quote was successfully created." }
-        format.turbo_stream { flash.now[:notice] = "Quote was successfully created." }
+        format.turbo_stream
     end
     else
       render :new, status: :unprocessable_entity
